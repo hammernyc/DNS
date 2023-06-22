@@ -206,7 +206,7 @@ function parsePacket(buf) {
         i = recordResp.i;
     }
     for (let j = 0; j < header.num_additionals; j++) {
-        const recordResp = parseQueparseRecordstion(buf, i);
+        const recordResp = parseRecord(buf, i);
         additionals.push(recordResp.record);
         i = recordResp.i;
     }
@@ -225,16 +225,11 @@ function findIPAddress(name) {
 
     client.send(message, 0, message.length, port, host, function(err, bytes) {
         if (err) throw err;
-        console.log('UDP message sent to ' + host + ':' + port);
-    });
-
-    client.on('listening', function () {
-        var address = client.address();
-        console.log('UDP Server listening on ' + address.address + ":" + address.port);
+        // console.log('UDP message sent to ' + host + ':' + port);
     });
 
     client.on('message', function (message, remote) {
-        console.log(remote.address + ':' + remote.port + ' - response received');
+        // console.log(remote.address + ':' + remote.port + ' - response received');
         const packet = parsePacket(message);
         console.log(`${name}: ${packet.answers[0].data}`);
         client.close();
